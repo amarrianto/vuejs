@@ -1,0 +1,47 @@
+<!-- // Bilangan Ganjil Genap -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Beginner</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Quicksand', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <img src="image/5.png" width="80">
+            <h1>{{ bilangan }}</h1>
+            <p>Bilangan ini adalah {{ infoBilangan }}</p>
+            <p>The Progressive Javascript Framework</p>
+        </header>
+
+        <footer id="footer">
+            <p>Copyright @2021</p>
+        </footer>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            bilangan: 6
+        },
+        methods: {
+
+        },
+        computed: {
+            infoBilangan: function() {
+                return this.bilangan%2 === 0 ? 'Genap' : 'Ganjil'
+            }
+        }
+    })
+</script>
+</body>
+</html>
