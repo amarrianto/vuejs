@@ -23,18 +23,15 @@
             <h1>V-FOR</h1>
             <img src="image/5.png" width="80">
 
-            <h3>Perulangan (1 - 5)</h3>
-            <ul>
-                <li v-for="x in 5">{{ x }}</li>
-            </ul>
-            <ul>
+            <h3>Daftar Kelas({{kelas.length}})</h3>
+            <ul v-if="kelas.length">
                 <li v-for="(item, index) of kelas">{{ index+1 }} - {{ item }}</li>
             </ul>
-
+            <p v-else>Kelas belum dipilih </p>
             <!-- <ul>
                 <li v-for="item of kelas" v-text="item"></li>
             </ul>
-
+            
             <p>{{ kelas }}</p> -->
 
             <div>
@@ -49,7 +46,7 @@
     const vm = new Vue({
         el: '#app',
         data: {
-            kelas: ["PHP", "JAVASCRIPT", "JAVA"],
+            kelas: [],
         },
         methods: {
         },
