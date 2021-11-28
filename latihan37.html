@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Beginner</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .active {
+            background: salmon;
+            border: 0;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+            <header-component nama="Javascript" gambar="../image/5.png"></header-component>
+
+            <main>
+                <kelas-component/>
+            </main>
+
+            <footer-component></footer-component>
+
+
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    Vue.component('header-component', {
+        props: ['nama', 'gambar'],
+        template: `
+            <header>
+                <h1>Components</h1>
+                <img :src="gambar" width="80">
+                <p> {{ 'Hello, ' +nama }}</p>
+            </header>
+            `,
+        data: function() {
+            return {
+                pesan: 'Hello, Component'
+            }
+        }
+    })
+    Vue.component('footer-component', {
+        template: `
+        <footer>
+            copyright 2021
+        </footer>
+        `
+    })
+    Vue.component('kelas-component', {
+        template: `
+            <div>
+                <h3>Tambah Kelas</h3>
+                <p><input type="text" placeholder="Nama Kelas" v-on:keyup.enter="submit" v-model="kelasBaru"></p>
+                <h3>Daftar Kelas({{kelas.length}})</h3>
+                <ul v-if="kelas.length">
+                    <li v-for="(item, index) of kelas">{{ index+1 }} - {{ item }}</li>
+                </ul>
+                <p v-else>Kelas belum dipilih </p>
+            </div>
+        `,
+        data: function() {
+            return {
+                kelas: ['Golang', 'PHP'],
+                kelasBaru: '',
+            }
+        },
+        methods: {
+                submit: function() {
+                this.kelas.push(this.kelasBaru)
+                this.kelasBaru = '';
+            }
+        },
+    })
+    
+    const vm = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+
+        },
+        computed: {
+        }
+    })
+</script>
+</body>
+</html>
