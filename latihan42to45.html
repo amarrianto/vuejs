@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Beginner</title>
+    <style>
+        body {
+            margin: 5%;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .active {
+            background: salmon;
+            border: 0;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+            <header-component nama="Javascript" gambar="../image/5.png"></header-component>
+
+            <main>
+                <kelas-component v-bind:items="kelas" v-on:submitkelas="submitkelas" v-on:hapuskelas="hapuskelas"></kelas-component>
+                <home></home>
+            </main>
+
+            <footer-component></footer-component>
+
+
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    const Home = {
+        template: '<div>Ini Components Home</div>'
+    }
+    Vue.component('header-component', {
+        props: ['nama', 'gambar'],
+        template: `
+            <header>
+                <h1>Components</h1>
+                <img :src="gambar" width="80">
+                <p> {{ 'Hello, ' +nama }}</p>
+            </header>
+            `,
+        data: function() {
+            return {
+                pesan: 'Hello, Component'
+            }
+        }
+    })
+    Vue.component('footer-component', {
+        template: `
+        <footer>
+            copyright 2021
+        </footer>
+        `
+    })
+    Vue.component('kelas-component', {
+        props: ['items'],
+        template: `
+            <div>
+                <h3>Tambah Kelas</h3>
+                <p><input type="text" placeholder="Nama Kelas" v-on:keyup.enter="$emit('submitkelas', event)"></p>
+                
+                <hr>
+                <h3>Daftar Kelas({{ items.length }})</h3>
+                <template v-if="items.length">
+                    <ul>
+                        <li v-for="(item, index) of items">{{ index+1 }} - {{ item }}
+                            <a href="" v-on:click.prevent="$emit('hapuskelas', index)">Hapus</a>    
+                        </li>
+                    </ul>
+                </template>
+                <p v-else>Kelas belum dipilih </p>
+            </div>
+        `,
+        data: function() {
+            return {
+            }
+        },
+        methods: {
+                submit: function() {
+                this.kelas.push(this.kelasbaru)
+                this.kelasbaru = ''
+            }
+        }
+    })
+    
+    const vm = new Vue({
+        el: '#app',
+        components: {
+            'home': Home,
+        },
+        data: {
+            kelas: ['Golang', 'PHP'],
+            kelasbaru: '',
+        },
+        methods: {
+            hapuskelas: function(index) {
+                this.kelas.splice(index, 1)
+            },
+            submitkelas: function() {
+                const text = event.target.value
+                this.kelas.push(text)
+            }
+        },
+        computed: {
+        },
+    })
+</script>
+</body>
+</html>
