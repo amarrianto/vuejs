@@ -28,8 +28,6 @@
             </nav>
 
             <main>
-                <!-- <kelas-component v-bind:items="kelas" v-on:submitkelas="submitkelas" v-on:hapuskelas="hapuskelas"></kelas-component> -->
-                <!-- <home></home> -->
                 <router-view v-bind:items="kelas" v-on:submitkelas="submitkelas" v-on:hapuskelas="hapuskelas"></router-view>
             </main>
 
@@ -39,6 +37,8 @@
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
+
 <script>
     const Home = {
         template: '<div>Home</div>'
@@ -52,12 +52,12 @@
         template: `
             <div>
                 <h3>Tambah Kelas</h3>
-                <form :submit.prevent="submitkelas">
-                    <p><input type="text" placeholder="Nama Kelas"></input>
+                <form v-on:submit.prevent="submitkelas">
+                    <p><input type="text" v-model="kelas.judul" placeholder="Nama Kelas"></input>
 
                     <div class="input-group">
                         <label>Deskripsi:</label>
-                        <textarea></textarea>    
+                        <textarea v-model="kelas.deskripsi"></textarea>    
                     </div>
 
                     <div>
@@ -81,12 +81,26 @@
         `,
         data: function() {
             return {
+                kelas: {
+                    judul: "",
+                    deskripsi: "",
+                    gambar: "",
+                }
             }
         },
         methods: {
-                submit: function() {
-                this.kelas.push(this.kelasbaru)
-                this.kelasbaru = ''
+                submitkelas: function() {
+                    const data = {
+                        id: uuidv4(),
+                        judul: this.kelas.judul,
+                        deskripsi: this.kelas.deskripsi,
+                        gambar: null,
+                    }
+
+                    this.$emit('submitkelas', data)
+
+                    this.kelas.judul = ''
+                    this.kelas.deskripsi = ''
             }
         }
     }
@@ -131,17 +145,14 @@
             kelas: [
                 {id: 1, judul: 'VueJs', Deskripsi: 'Oke 1', Gambar: ''},
                 {id: 2, judul: 'React', Deskripsi: 'Oke 2', Gambar: ''}],
-            kelasbaru: '',
         },
         methods: {
             hapuskelas: function(id) {
                 // this.kelas.splice(index, 1)
                 this.kelas = this.kelas.filter(item => item.id != id)
             },
-            submitkelas: function() {
-                console.log(event)
-                const text = event.target.value
-                this.kelas.push(text)
+            submitkelas: function(data) {
+                this.kelas.push(data)
             }
         },
         computed: {
